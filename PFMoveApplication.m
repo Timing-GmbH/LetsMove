@@ -26,6 +26,7 @@
 #define kStrMoveApplicationButtonDoNotMove _I10NS(@"Do Not Move")
 #define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
 #define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
+#define kStrMoveApplicationQuestionInfoDoesNotSupportDMG _I10NS(@"Timing may not function properly if run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot.")
 
 // Needs to be defined for compiling under 10.5 SDK
 #ifndef NSAppKitVersionNumber10_5
@@ -79,6 +80,11 @@ void PFMoveToApplicationsFolderIfNecessary(void) {
 	// Since we are good to go, get the preferred installation directory.
 	BOOL installToUserApplications = NO;
 	NSString *applicationsDirectory = PreferredInstallLocation(&installToUserApplications);
+	
+	// Always install to /Applications.
+	installToUserApplications = NO;
+	applicationsDirectory = [[NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject] stringByResolvingSymlinksInPath];
+	
 	NSString *bundleName = [bundlePath lastPathComponent];
 	NSString *destinationPath = [applicationsDirectory stringByAppendingPathComponent:bundleName];
 
@@ -93,7 +99,12 @@ void PFMoveToApplicationsFolderIfNecessary(void) {
 	{
 		NSString *informativeText = nil;
 
-		[alert setMessageText:(installToUserApplications ? kStrMoveApplicationQuestionTitleHome : kStrMoveApplicationQuestionTitle)];
+		NSString *messageText = (installToUserApplications ? kStrMoveApplicationQuestionTitleHome : kStrMoveApplicationQuestionTitle);
+		if (diskImageDevice != nil) {
+			messageText = [messageText stringByAppendingString:@"\n"];
+			messageText = [messageText stringByAppendingString:kStrMoveApplicationQuestionInfoDoesNotSupportDMG];
+		}
+		[alert setMessageText:messageText];
 
 		informativeText = kStrMoveApplicationQuestionMessage;
 
