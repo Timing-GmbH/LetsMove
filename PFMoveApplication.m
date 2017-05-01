@@ -26,7 +26,7 @@
 #define kStrMoveApplicationButtonDoNotMove _I10NS(@"Do Not Move")
 #define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
 #define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
-#define kStrMoveApplicationQuestionInfoDoesNotSupportDMG _I10NS(@"Timing may not function properly if run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot.")
+#define kStrMoveApplicationQuestionInfoDoesNotSupportDMG _I10NS(@"Timing may not function properly when run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot.")
 
 // Needs to be defined for compiling under 10.5 SDK
 #ifndef NSAppKitVersionNumber10_5
