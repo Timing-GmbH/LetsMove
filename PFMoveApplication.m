@@ -17,7 +17,6 @@
 
 // Strings
 // These are macros to be able to use custom i18n tools
-#define _I10NS(nsstr) NSLocalizedStringFromTable(nsstr, @"MoveApplication", nil)
 #define kStrMoveApplicationCouldNotMove _I10NS(@"Could not move to Applications folder")
 #define kStrMoveApplicationQuestionTitle  _I10NS(@"Move to Applications folder?")
 #define kStrMoveApplicationQuestionTitleHome _I10NS(@"Move to Applications folder in your Home folder?")
@@ -37,6 +36,11 @@
 // If you prefer to use the system default (to match your other alerts),
 // set this to 0.
 #define PFUseSmallAlertSuppressCheckbox 1
+
+
+static NSString *_I10NS(NSString *input) {
+	return [[NSBundle mainBundle] localizedStringForKey:input value:@"" table:@"MoveApplication"];
+}
 
 
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
