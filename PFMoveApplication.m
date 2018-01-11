@@ -25,7 +25,8 @@
 #define kStrMoveApplicationButtonDoNotMove _I10NS(@"Do Not Move")
 #define kStrMoveApplicationQuestionInfoWillRequirePasswd _I10NS(@"Note that this will require an administrator password.")
 #define kStrMoveApplicationQuestionInfoInDownloadsFolder _I10NS(@"This will keep your Downloads folder uncluttered.")
-#define kStrMoveApplicationQuestionInfoDoesNotSupportDMG _I10NS(@"Timing may not function properly when run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot.")
+#define kStrMoveApplicationQuestionInfoDoesNotSupportDMGTiming _I10NS(@"Timing may not function properly when run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot.")
+#define kStrMoveApplicationQuestionInfoDoesNotSupportDMGNotTiming _I10NS(@"This app may not function properly when run from a disk image.\nIn particular, it cannot lauch automatically after you reboot.")
 
 // Needs to be defined for compiling under 10.5 SDK
 #ifndef NSAppKitVersionNumber10_5
@@ -106,7 +107,12 @@ void PFMoveToApplicationsFolderIfNecessary(void) {
 		NSString *messageText = (installToUserApplications ? kStrMoveApplicationQuestionTitleHome : kStrMoveApplicationQuestionTitle);
 		if (diskImageDevice != nil) {
 			messageText = [messageText stringByAppendingString:@"\n"];
-			messageText = [messageText stringByAppendingString:kStrMoveApplicationQuestionInfoDoesNotSupportDMG];
+			
+			if ([NSBundle.mainBundle.bundleIdentifier containsString:@"Timing"]) {
+				messageText = [messageText stringByAppendingString:kStrMoveApplicationQuestionInfoDoesNotSupportDMGTiming];
+			} else {
+				messageText = [messageText stringByAppendingString:kStrMoveApplicationQuestionInfoDoesNotSupportDMGNotTiming];
+			}
 		}
 		[alert setMessageText:messageText];
 

@@ -22,3 +22,5 @@
 /* (No Commment) */
 "This will keep your Downloads folder uncluttered." = "Damit Ihr Downloads-Ordner aufgeräumt bleibt.";
 
+/* (No Commment) */
+"Timing may not function properly when run from a disk image.\nIn particular, tracking cannot resume automatically after you reboot." = "Timing funktioniert möglicherweise nicht korrekt, wenn es von einem Disk Image ausgeführt wird.\nInsbesondere kann es die Zeiterfassung nicht automatisch direkt nach einem Neustart beim Anmelden fortsetzen.";
