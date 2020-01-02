@@ -47,11 +47,6 @@
 #define PFUseSmallAlertSuppressCheckbox 1
 
 
-static NSString *_I10NS(NSString *input) {
-	return [[NSBundle mainBundle] localizedStringForKey:input value:@"" table:@"MoveApplication"];
-}
-
-
 static NSString *AlertSuppressKey = @"moveToApplicationsFolderAlertSuppress";
 static BOOL MoveInProgress = NO;
 
