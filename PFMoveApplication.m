@@ -158,7 +158,7 @@ void PFMoveToApplicationsFolderIfNecessary(void) {
 
 		if (PFUseSmallAlertSuppressCheckbox) {
 			NSCell *cell = [[alert suppressionButton] cell];
-			[cell setControlSize:NSSmallControlSize];
+			[cell setControlSize:NSControlSizeSmall];
 			[cell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 		}
 	}
@@ -232,7 +232,7 @@ void PFMoveToApplicationsFolderIfNecessary(void) {
 		exit(0);
 	}
 	// Save the alert suppress preference if checked
-	else if ([[alert suppressionButton] state] == NSOnState) {
+	else if ([[alert suppressionButton] state] == NSControlStateValueOn) {
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:AlertSuppressKey];
 	}
 
@@ -249,7 +249,7 @@ fail:
 	}
 }
 
-BOOL PFMoveIsInProgress() {
+BOOL PFMoveIsInProgress(void) {
     return MoveInProgress;
 }
 
@@ -358,7 +358,7 @@ static NSString *ContainingDiskImageDevice(NSString *path) {
 
 	NSString *device = [[NSFileManager defaultManager] stringWithFileSystemRepresentation:fs.f_mntfromname length:strlen(fs.f_mntfromname)];
 
-	NSTask *hdiutil = [[[NSTask alloc] init] autorelease];
+	NSTask *hdiutil = [[NSTask alloc] init];
 	[hdiutil setLaunchPath:@"/usr/bin/hdiutil"];
 	[hdiutil setArguments:[NSArray arrayWithObjects:@"info", @"-plist", nil]];
 	[hdiutil setStandardOutput:[NSPipe pipe]];
@@ -426,12 +426,12 @@ static BOOL Trash(NSString *path) {
 	// This allows us to trash the app in macOS Sierra even when the app is running inside
 	// an app translocation image.
 	if (!result) {
-		NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:
-									   [NSString stringWithFormat:@"\
-										set theFile to POSIX file \"%@\" \n\
-									   	tell application \"Finder\" \n\
-									  		move theFile to trash \n\
-									  	end tell", path]] autorelease];
+		NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:
+									  [NSString stringWithFormat:@"\
+									   set theFile to POSIX file \"%@\" \n\
+									   tell application \"Finder\" \n\
+										   move theFile to trash \n\
+									   end tell", path]];
 		NSDictionary *errorDict = nil;
 		NSAppleEventDescriptor *scriptResult = [appleScript executeAndReturnError:&errorDict];
 		if (scriptResult == nil) {
